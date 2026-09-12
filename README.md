@@ -13,6 +13,9 @@ Production-ready M-Pesa STK Push integration using Spring Boot 3.
 -  Docker support
 -  CI/CD with GitHub Actions
 
+## API Specification
+Full endpoint reference: [mpesa/src/main/resources/api-specification.md](mpesa/src/main/resources/api-specification.md)
+
 ## Quick Start
 
 ### 1. Clone
