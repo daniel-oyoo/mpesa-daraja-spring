@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>M-Pesa STK Push · Demo</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <main class="app">
+        <header class="header">
+            <h1>M-Pesa <span>STK Push</span></h1>
+            <p class="subtitle">Enter a phone number and amount to trigger a payment prompt.</p>
+        </header>
+
+        <form id="paymentForm" class="card">
+            <div class="field">
+                <label for="phoneNumber">Phone Number</label>
+                <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="254712345678" pattern="^254[0-9]{9}$" value="254708374149" required />
+                <small>Format: 254XXXXXXXXX (MSISDN)</small>
+            </div>
+
+            <div class="field">
+                <label for="amount">Amount (KES)</label>
+                <input type="text" id="amount" name="amount" placeholder="100.00" pattern="^[0-9]+(\.[0-9]{1,2})?$" value="1.00" required />
+            </div>
+
+            <div class="field">
+                <label for="accountReference">Account Reference</label>
+                <input type="text" id="accountReference" name="accountReference" placeholder="ORDER-12345" value="ORDER-001" required />
+            </div>
+
+            <div class="field">
+                <label for="description">Description</label>
+                <input type="text" id="description" name="description" placeholder="Payment for Order #001" value="Test payment" required />
+            </div>
+
+            <button type="submit" id="payBtn" class="btn-primary">
+                Pay Now
+            </button>
+        </form>
+
+        <section id="statusCard" class="card status-card hidden">
+            <div class="status-header">
+                <span class="pulse"></span>
+                <h2 id="statusTitle">Awaiting payment…</h2>
+            </div>
+            <div class="status-body">
+                <p class="status-line">
+                    <strong>Checkout ID:</strong>
+                    <code id="checkoutId">—</code>
+                </p>
+                <p class="status-line">
+                    <strong>Status:</strong>
+                    <span id="statusValue" class="badge pending">PENDING</span>
+                </p>
+                <p class="status-line">
+                    <strong>Message:</strong>
+                    <span id="statusMessage">Please check your phone and enter PIN.</span>
+                </p>
+                <p class="status-line hidden" id="receiptLine">
+                    <strong>M-Pesa Receipt:</strong>
+                    <code id="receiptNumber">—</code>
+                </p>
+            </div>
+            <div id="resultBanner" class="result-banner"></div>
+        </section>
+
+        <section id="errorCard" class="card error-card hidden">
+            <h2>❌ Error</h2>
+            <p id="errorMessage">Something went wrong.</p>
+        </section>
+
+        <footer class="footer">
+            <small>Demo frontend · Talks to <code>/api/v1/mpesa/*</code></small>
+        </footer>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

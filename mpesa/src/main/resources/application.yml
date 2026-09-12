@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: mpesa-daraja-spring
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+  datasource:
+    url: ${DB_URL:jdbc:h2:mem:mpesa;DB_CLOSE_DELAY=-1}
+    username: ${DB_USERNAME:sa}
+    password: ${DB_PASSWORD:}
+    driver-class-name: ${DB_DRIVER:org.h2.Driver}
+  jpa:
+    hibernate:
+      ddl-auto: ${DDL_AUTO:update}
+    show-sql: false
+
+server:
+  port: ${SERVER_PORT:8080}
+
+mpesa:
+  api:
+    base-url: ${MPESA_BASE_URL:https://sandbox.safaricom.co.ke}
+    consumer-key: ${MPESA_CONSUMER_KEY}
+    consumer-secret: ${MPESA_CONSUMER_SECRET}
+    shortcode: ${MPESA_SHORTCODE:174379}
+    passkey: ${MPESA_PASSKEY}
+    callback-url: ${MPESA_CALLBACK_URL:https://your-domain.com/api/v1/mpesa/callback}
+    transaction-type: ${MPESA_TRANSACTION_TYPE:CustomerPayBillOnline}
+
+logging:
+  level:
+    com.daniel.mpesa: DEBUG
