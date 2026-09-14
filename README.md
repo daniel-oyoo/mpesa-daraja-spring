@@ -51,6 +51,8 @@ ngrok http 8080
 # Copy the HTTPS URL into .env as MPESA_CALLBACK_URL
 ```
 
+Open http://localhost:8080 for a simple interactive web interface.
+
 ## API Endpoints
 
 | Method | Path | Description |
