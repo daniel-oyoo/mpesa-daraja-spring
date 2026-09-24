@@ -2,6 +2,7 @@ package com.daniel.controller;
 
 import com.daniel.dto.request.StkPushRequest;
 import com.daniel.dto.response.StkPushResponse;
+import com.daniel.exception.TransactionNotFoundException;
 import com.daniel.model.Transaction;
 import com.daniel.repository.TransactionRepository;
 import com.daniel.service.StkPushService;
@@ -28,7 +29,7 @@ public class StkPushController {
     @GetMapping("/stk-push/status/{checkoutId}")
     public ResponseEntity<Map<String, Object>> status(@PathVariable String checkoutId) {
         Transaction tx = transactionRepository.findByCheckoutRequestId(checkoutId)
-                .orElseThrow(() -> new RuntimeException("Transaction not found: " + checkoutId));
+                .orElseThrow(() -> new TransactionNotFoundException("Transaction not found: " + checkoutId));
 
         return ResponseEntity.ok(Map.of(
                 "checkoutRequestId", tx.getCheckoutRequestId(),

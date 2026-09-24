@@ -3,9 +3,8 @@ services:
 		build:
 			context: ..
 			dockerfile: docker/dockerfile
-		ports:
-			- "${SERVER_PORT:-8080}:8080"
-		environment:
+		 ports:- "${SERVER_PORT:-8080}:8080"
+		 environment:
 			SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-prod}
 			DB_URL: jdbc:postgresql://db:5432/${POSTGRES_DB:-mpesa}
 			DB_USERNAME: ${POSTGRES_USER:-mpesa}
@@ -20,7 +19,7 @@ services:
 			MPESA_SHORTCODE: ${MPESA_SHORTCODE:-174379}
 			MPESA_PASSKEY: ${MPESA_PASSKEY:?MPESA_PASSKEY is required}
 			MPESA_CALLBACK_URL: ${MPESA_CALLBACK_URL:?MPESA_CALLBACK_URL is required}
-		depends_on:
+		  depends_on:
 			db:
 				condition: service_healthy
 

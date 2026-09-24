@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.context.SecurityContextHolderFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.daniel.filter.RequestIdFilter;
 
@@ -50,7 +51,9 @@ public class SecurityConfig {
         "/v3/api-docs/**",
         "/api/v1/mpesa/callback")
       .permitAll()
-      .anyRequest().authenticated())
+      .anyRequest().permitAll()
+      //authenticated()
+      )
     .httpBasic(Customizer.withDefaults())
     .headers(headers -> headers
       .contentTypeOptions(Customizer.withDefaults())

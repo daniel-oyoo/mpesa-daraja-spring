@@ -19,15 +19,15 @@ server:
 
 security:
   api-username: ${API_USERNAME:api-client}
-  api-password: ${API_PASSWORD}
+  api-password: ${API_PASSWORD:dev-test}
 
 mpesa:
   api:
     base-url: ${MPESA_BASE_URL:https://sandbox.safaricom.co.ke}
-    consumer-key: ${MPESA_CONSUMER_KEY}
-    consumer-secret: ${MPESA_CONSUMER_SECRET}
+    consumer-key: ${MPESA_CONSUMER_KEY:1203}
+    consumer-secret: ${MPESA_CONSUMER_SECRET:1203}
     shortcode: ${MPESA_SHORTCODE:174379}
-    passkey: ${MPESA_PASSKEY}
+    passkey: ${MPESA_PASSKEY:1203}
     callback-url: ${MPESA_CALLBACK_URL:https://your-domain.com/api/v1/mpesa/callback}
     transaction-type: ${MPESA_TRANSACTION_TYPE:CustomerPayBillOnline}
 
