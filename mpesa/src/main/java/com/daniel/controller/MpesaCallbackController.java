@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @RestController
@@ -20,12 +21,16 @@ public class MpesaCallbackController {
     @PostMapping("/callback")
     public ResponseEntity<Map<String, String>> callback(@RequestBody CallbackResponse callback) {
         log.info("Received M-Pesa callback: {}", callback);
-        try {
+        CompletableFuture.runAsync(
+            ()->{
+            try {
             transactionService.processCallback(callback);
-        } catch (Exception e) {
+            } catch (Exception e) {
             log.error("Failed to process callback", e);
             // We STILL return 200 so Safaricom doesn't retry
-        }
+            }
+            }
+        );
         return ResponseEntity.ok(Map.of(
                 "ResultCode", "0",
                 "ResultDesc", "Callback processed successfully"
