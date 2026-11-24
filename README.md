@@ -1,6 +1,7 @@
 <p align="center">
  <img src ="mpesa\assets\interaction-flow-diagram.jpg" alt = "Mpesa stk push flow diagram " width=480/>
 </p>
+
 # M-Pesa Daraja STK Push API
 
 A Spring Boot 3 integration for Safaricom Daraja STK Push payments. It provides a protected API for starting payments, persists transaction state, and processes Safaricom callbacks.
