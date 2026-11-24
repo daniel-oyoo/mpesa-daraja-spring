@@ -1,5 +1,5 @@
 <p align="center">
- <img src ="assets\interaction-flow-diagram.jpg" alt = "Mpesa stk push flow diagram " width=480/>
+ <img src ="mpesa\assets\interaction-flow-diagram.jpg" alt = "Mpesa stk push flow diagram " width=480/>
 </p>
 # M-Pesa Daraja STK Push API
 
