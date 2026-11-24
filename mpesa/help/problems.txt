@@ -1,0 +1,58 @@
+1. Problem
+2. Cause / Reasons
+3. Why (Root Mechanism)
+4. Fixes
+5. Why Fixes Work
+6. How to Avoid
+
+==================================================
+
+1. Problem
+Spring Boot `application.yml` was not reading environment variables from the `.env` file, causing the application to use default or empty values instead of actual credentials.
+
+2. Cause / Reasons
+- Spring Boot does not load `.env` files automatically by default (unlike Node.js or Python).
+- `application.yml` lacked an explicit `spring.config.import` directive pointing to `.env`.
+
+3. Why (Root Mechanism)
+Without an explicit import instruction, Spring Boot's property resolver skips `.env` on disk and evaluates `${...}` placeholders in `application.yml` against OS environment variables or fallback defaults.
+
+4. Fixes
+- Place `.env` in the project root directory (same level as `pom.xml` or `build.gradle`), never inside `src/main/resources`.
+- Add the import directive to `application.yml`:
+  spring:
+    config:
+      import: optional:file:.env[.properties]
+- Print/log the loaded values on startup or write tests against the configuration properties to verify the real values are injected.
+
+5. Why Fixes Work
+`optional:file:.env[.properties]` tells Spring Boot's config loader to parse `.env` into the environment property sources before resolving `application.yml` placeholders, while `optional:` prevents startup failure in production environments where real OS environment variables replace `.env`.
+
+6. How to Avoid
+- Add a startup check or configuration unit test that fails fast if required properties are blank or still match default placeholder values.
+- Keep `.env` in `.gitignore` and use environment-specific profiles (`application-sandbox.yml`, `application-prod.yml`).
+
+==================================================
+
+1. Problem
+Failed to obtain an M-Pesa Daraja OAuth access token (`GET /oauth/v1/generate?grant_type=client_credentials`), resulting in blocked or rejected token requests.
+
+2. Cause / Reasons
+- Missing `User-Agent` and `Content-Type` headers in the HTTP request.
+- The application was sending default/empty credentials from `application.yml` because `.env` was not being loaded.
+
+3. Why (Root Mechanism)
+Safaricom's Web Application Firewall (WAF) flags bare requests lacking standard `User-Agent` and `Content-Type` headers as automated bot traffic and blocks them even when credentials are valid. Additionally, uninjected `.env` defaults meant invalid credentials were being encoded in the `Authorization` header.
+
+4. Fixes
+- Add `User-Agent` (e.g., `Mozilla/5.0`) and `Content-Type: application/json` headers to the OAuth `GET` request alongside `Authorization: Basic <base64(consumerKey:consumerSecret)>`.
+- Ensure `.env` is imported in `application.yml` (`optional:file:.env[.properties]`) and verify loaded credentials via logs or unit tests.
+
+5. Why Fixes Work
+- Including `User-Agent` and `Content-Type` satisfies Safaricom's perimeter WAF checks so the request reaches the OAuth service.
+- Properly loading `.env` ensures the real `Consumer Key` and `Consumer Secret` are Base64-encoded into the `Basic` authorization header.
+
+6. How to Avoid
+- Always include explicit `User-Agent` and `Content-Type` headers in HTTP client configurations for external payment gateways.
+- Cache the generated OAuth token for ~50–55 minutes (within its 3,600-second expiry) instead of requesting a new token per API call.
+- Trim whitespace from loaded keys before Base64 encoding and validate config values at startup.
