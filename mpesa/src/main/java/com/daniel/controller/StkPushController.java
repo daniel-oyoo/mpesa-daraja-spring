@@ -8,6 +8,8 @@ import com.daniel.repository.TransactionRepository;
 import com.daniel.service.StkPushService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +18,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1/mpesa")
 @RequiredArgsConstructor
+@Slf4j 
 public class StkPushController {
 
     private final StkPushService stkPushService;
@@ -23,6 +26,10 @@ public class StkPushController {
 
     @PostMapping("/stk-push")
     public ResponseEntity<StkPushResponse> initiate(@Valid @RequestBody StkPushRequest request) {
+        log.info(
+            "Step 1 . Received stk push request with payload {} "
+            // + request
+        );
         return ResponseEntity.ok(stkPushService.initiateStkPush(request));
     }
 

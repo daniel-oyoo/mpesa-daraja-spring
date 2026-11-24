@@ -42,11 +42,15 @@ public class MpesaAuthService {
         Request request = new Request.Builder()
                 .url(config.getBaseUrl() + "/oauth/v1/generate?grant_type=client_credentials")
                 .get()
+                //without these haeders you look like a bot 
+                .addHeader("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
+                .addHeader("Content-Type","application/json")
                 .addHeader("Authorization", "Basic " + auth)
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (!response.isSuccessful() || response.body() == null) {
+                log.warn("Got response {} " ,response);//remove after debug
                 throw new RuntimeException("Failed to obtain M-Pesa access token: " + response.code());
             }
             AuthResponse authResponse = objectMapper.readValue(

@@ -61,6 +61,9 @@ public class StkPushService {
                 .transactionDesc(request.getDescription())
                 .build();
 
+        //clear this log afterwards
+        log.info("Step 2. Build user request and send stk push {}",mpesaRequest);
+
         StkPushResponse response = callMpesa(mpesaRequest);
 
         // Persist transaction
@@ -86,6 +89,9 @@ public class StkPushService {
             Request request = new Request.Builder()
                     .url(config.getBaseUrl() + "/mpesa/stkpush/v1/processrequest")
                     .post(RequestBody.create(json, JSON))
+                    //add headers
+                    .addHeader("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
+                    .addHeader("Content-Type","application/json")
                     .addHeader("Authorization", "Bearer " + authService.getAccessToken())
                     .build();
 
@@ -101,8 +107,10 @@ public class StkPushService {
                 return objectMapper.readValue(body, StkPushResponse.class);
             }
         }catch (UnknownHostException e) {
+            log.warn("Error you may be offline or mpesa is unreachable");
                throw new MpesaUnavailableException("M-Pesa is unreachable", e);
         }catch (IOException e) {
+              log.error("Json parsing failed");
               throw new RuntimeException("Failed to process json ", e);
         }
     }

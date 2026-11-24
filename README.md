@@ -110,6 +110,10 @@ git branch -M main
 git push -u origin main
 ```
 
+## Troubleshooting
+
+Having issues with M-Pesa Daraja authentication or setup? Check the **[Troubleshooting Guide](./mpesa/help/HELP.md)**, or view the specific challenges encountered and their fixes in the **[Problem Log](./mpesa/help/problem.txt)**.
+
 ## License
 
 MIT
