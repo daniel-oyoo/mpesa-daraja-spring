@@ -36,7 +36,7 @@ POST http://localhost:8080/api/v1/mpesa/stk-push
 ### Authentication
 | Header          | Value                    |
 |-----------------|--------------------------|
-| `Authorization` | `Bearer {accessToken}`   |
+| `Authorization` | `Bearer/Basic {accessToken}`   |
 
 Access token is obtained using:
 - `MPESA_CONSUMER_KEY`
