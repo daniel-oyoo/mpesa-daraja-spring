@@ -1,7 +1,3 @@
-Here is the cleaned-up version following your exact structure, with the format template placed right at the top:
-
----
-
 ### Format Template
 
 ```text
